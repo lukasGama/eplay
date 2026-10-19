@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Section from '../Section'
 
+import { GalleryItem } from '../../pages/Home'
 import { Items, Item, Action, Modal, ModalContent } from './styles'
 
 import zelda from '../../assets/images/zelda.png'
@@ -12,11 +13,6 @@ import play from '../../assets/images/play.png'
 import zoom from '../../assets/images/zoom.png'
 import fechar from '../../assets/images/fechar.png'
 
-interface GalleryItem {
-  type: 'image' | 'video'
-  url: string
-}
-
 export const mock: GalleryItem[] = [
   {
     type: 'image',
@@ -26,42 +22,31 @@ export const mock: GalleryItem[] = [
     type: 'image',
     url: hogwarts
   },
-  // {
-  //   type: 'image',
-  //   url: spider
-  // },
-  // {
-  //   type: 'image',
-  //   url: starWars
-  // },
+  {
+    type: 'image',
+    url: zelda
+  },
+  {
+    type: 'image',
+    url: starWars
+  },
   {
     type: 'video',
     url: 'https://www.youtube.com/embed/E69tKrfEQag?si=RZab9nf4HGSah4wO'
   }
-  // {
-  //   type: 'video',
-  //   url: 'https://www.youtube.com/embed/yF29baX-IsA?si=23bgYyCS02Qi0zAZ'
-  // },
-  // {
-  //   type: 'video',
-  //   url: 'https://www.youtube.com/embed/qjRzm9A7DU4?si=fl_Sp_h8uFxqTrUI'
-  // },
-  // {
-  //   type: 'video',
-  //   url: 'https://www.youtube.com/embed/VRaobDJjiec?si=4hkJCMRUszdBKtYd'
-  // }
 ]
 
 type Props = {
   defaultCover: string
   name: string
+  items: GalleryItem[]
 }
 
 interface ModalState extends GalleryItem {
   isVisible: boolean
 }
 
-export const Gallery = ({ defaultCover, name }: Props) => {
+export const Gallery = ({ defaultCover, name, items }: Props) => {
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
     type: 'image',
@@ -90,7 +75,7 @@ export const Gallery = ({ defaultCover, name }: Props) => {
     <>
       <Section title="Galeria" background="black">
         <Items>
-          {mock.map((media, index) => (
+          {items.map((media, index) => (
             <Item
               key={media.url}
               onClick={() => {
