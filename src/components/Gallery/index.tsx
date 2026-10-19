@@ -1,0 +1,147 @@
+import { useState } from 'react'
+import Section from '../Section'
+
+import { Items, Item, Action, Modal, ModalContent } from './styles'
+
+import zelda from '../../assets/images/zelda.png'
+import hogwarts from '../../assets/images/fundo_hogwarts.png'
+import spider from '../../assets/images/banner-homem-aranha.png'
+import starWars from '../../assets/images/star_wars.png'
+
+import play from '../../assets/images/play.png'
+import zoom from '../../assets/images/zoom.png'
+import fechar from '../../assets/images/fechar.png'
+
+interface GalleryItem {
+  type: 'image' | 'video'
+  url: string
+}
+
+export const mock: GalleryItem[] = [
+  {
+    type: 'image',
+    url: spider
+  },
+  {
+    type: 'image',
+    url: hogwarts
+  },
+  // {
+  //   type: 'image',
+  //   url: spider
+  // },
+  // {
+  //   type: 'image',
+  //   url: starWars
+  // },
+  {
+    type: 'video',
+    url: 'https://www.youtube.com/embed/E69tKrfEQag?si=RZab9nf4HGSah4wO'
+  }
+  // {
+  //   type: 'video',
+  //   url: 'https://www.youtube.com/embed/yF29baX-IsA?si=23bgYyCS02Qi0zAZ'
+  // },
+  // {
+  //   type: 'video',
+  //   url: 'https://www.youtube.com/embed/qjRzm9A7DU4?si=fl_Sp_h8uFxqTrUI'
+  // },
+  // {
+  //   type: 'video',
+  //   url: 'https://www.youtube.com/embed/VRaobDJjiec?si=4hkJCMRUszdBKtYd'
+  // }
+]
+
+type Props = {
+  defaultCover: string
+  name: string
+}
+
+interface ModalState extends GalleryItem {
+  isVisible: boolean
+}
+
+export const Gallery = ({ defaultCover, name }: Props) => {
+  const [modal, setModal] = useState<ModalState>({
+    isVisible: false,
+    type: 'image',
+    url: ''
+  })
+  const getMediaCover = (item: GalleryItem) => {
+    if (item.type === 'image') return item.url
+    return defaultCover
+  }
+
+  const getMediaIcon = (item: GalleryItem) => {
+    if (item.type === 'image') return zoom
+    return play
+  }
+
+  //close modal para que o usuario possa sair da imagem ou video sem nesessariamente clicar no x
+  const closeModal = () => {
+    setModal({
+      isVisible: false,
+      type: 'image',
+      url: ''
+    })
+  }
+
+  return (
+    <>
+      <Section title="Galeria" background="black">
+        <Items>
+          {mock.map((media, index) => (
+            <Item
+              key={media.url}
+              onClick={() => {
+                setModal({
+                  isVisible: true,
+                  type: media.type,
+                  url: media.url
+                })
+              }}
+            >
+              <img
+                src={getMediaCover(media)}
+                alt={`Midía ${index + 1} de ${name}`}
+              />
+              <Action>
+                <img
+                  src={getMediaIcon(media)}
+                  alt="Clique para maximizar a midia!"
+                />
+              </Action>
+            </Item>
+          ))}
+        </Items>
+      </Section>
+      <Modal className={modal.isVisible ? 'visivel' : ''}>
+        <ModalContent className="container">
+          <header>
+            <h4>{name}</h4>
+            <img
+              src={fechar}
+              alt="Icone de fechar"
+              onClick={() => {
+                closeModal()
+              }}
+            />
+          </header>
+          {modal.type === 'image' ? (
+            <img src={modal.url} />
+          ) : (
+            <iframe frameBorder={0} src={modal.url} />
+          )}
+        </ModalContent>
+        <div
+          onClick={() => {
+            closeModal()
+          }}
+          className="overlay"
+        ></div>
+      </Modal>
+    </>
+  )
+}
+
+export default Gallery
