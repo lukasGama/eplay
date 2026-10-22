@@ -3,19 +3,22 @@ import Hero from '../../components/Hero'
 import Section from '../../components/Section'
 import Gallery from '../../components/Gallery'
 
-import { useEffect, useState } from 'react'
-import { Game } from '../Home'
+// import { useEffect, useState } from 'react'
+// import { Game } from '../Home'
+import { useGetGameQuery } from '../../services/api'
 
 const Product = () => {
   const { id } = useParams()
+  const { data: game } = useGetGameQuery(id!)
 
-  const [game, setGame] = useState<Game>()
+  //parte 2
+  // const [game, setGame] = useState<Game>()
 
-  useEffect(() => {
-    fetch(`https://api-ebac.vercel.app/api/eplay/jogos/${id}`)
-      .then((res) => res.json())
-      .then((res) => setGame(res))
-  }, [id])
+  // useEffect(() => {
+  //   fetch(`https://api-ebac.vercel.app/api/eplay/jogos/${id}`)
+  //     .then((res) => res.json())
+  //     .then((res) => setGame(res))
+  // }, [id])
 
   if (!game) {
     return <h3>Carregando...</h3>

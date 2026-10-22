@@ -1,9 +1,14 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 import { TagContainer } from '../Tag/styles'
 
+// para que o conteudo não escape do banner.
+// after = para fazer o elemento sobre-por a imagem
+// content =  para add um conteudo em cima da imagem
+// 1.00 sendo 100% de opacidade
+// .container = para deixar com mais destaque do elemento em cima da imagem
 export const Banner = styled.div`
-  position: relative; // para que o conteudo não escape do banner.
+  position: relative;
   display: block;
   height: 480px;
   width: 100%;
@@ -14,7 +19,10 @@ export const Banner = styled.div`
 
   padding-top: 16px;
 
-  // para fazer o elemento sobre-por a imagem
+  @media (max-width: ${breakpoints.tablet}) {
+    background-size: cover;
+  }
+
   &::after {
     position: absolute;
     background-color: #000;
@@ -22,15 +30,14 @@ export const Banner = styled.div`
     height: 100%;
     top: 0;
     left: 0;
-    content: ''; // para add um conteudo em cima da imagem
-    opacity: 0.56; // 1.00 sendo 100% de opacidade
+    content: '';
+    opacity: 0.56;
   }
 
   ${TagContainer} {
     margin-right: 8px;
   }
 
-  // para deixar com mais destaque do elemento em cima da imagem
   .container {
     z-index: 1;
     position: relative;

@@ -1,54 +1,85 @@
 import ProductsList from '../../components/ProductsList'
 
-import resident from '../../assets/images/resident.png'
-import diablo from '../../assets/images/diablo.png'
-import zelda from '../../assets/images/zelda.png'
-import starWars from '../../assets/images/star_wars.png'
-import { Game } from '../Home'
-import { useEffect, useState } from 'react'
+// import { Game } from '../Home'
+// import { useEffect, useState } from 'react'
+
+import {
+  useGetActionsGamesQuery,
+  useGetFightGamesQuery,
+  useGetRpgGamesQuery,
+  useGetSimulationGamesQuery,
+  useGetSportGamesQuery
+} from '../../services/api'
 
 const Categories = () => {
-  const [gamesAcao, setGamesAcao] = useState<Game[]>([])
-  const [gamesEsporte, setGamesEsporte] = useState<Game[]>([])
-  const [gamesSimulacao, setGamesSimulacao] = useState<Game[]>([])
-  const [gamesLuta, setGamesLuta] = useState<Game[]>([])
-  const [gamesRPG, setGamesRPG] = useState<Game[]>([])
+  const { data: actionsGames } = useGetActionsGamesQuery()
+  const { data: fightGames } = useGetFightGamesQuery()
+  const { data: rpgGames } = useGetRpgGamesQuery()
+  const { data: simulationGames } = useGetSimulationGamesQuery()
+  const { data: sportGames } = useGetSportGamesQuery()
 
-  useEffect(() => {
-    fetch('https://api-ebac.vercel.app/api/eplay/acao')
-      .then((res) => res.json())
-      .then((res) => setGamesAcao(res))
+  //parte 2
+  // const [gamesAcao, setGamesAcao] = useState<Game[]>([])
+  // const [gamesEsporte, setGamesEsporte] = useState<Game[]>([])
+  // const [gamesSimulacao, setGamesSimulacao] = useState<Game[]>([])
+  // const [gamesLuta, setGamesLuta] = useState<Game[]>([])
+  // const [gamesRPG, setGamesRPG] = useState<Game[]>([])
 
-    fetch('https://api-ebac.vercel.app/api/eplay/esportes')
-      .then((res) => res.json())
-      .then((res) => setGamesEsporte(res))
+  // useEffect(() => {
+  //   fetch('https://api-ebac.vercel.app/api/eplay/acao')
+  //     .then((res) => res.json())
+  //     .then((res) => setGamesAcao(res))
 
-    fetch('https://api-ebac.vercel.app/api/eplay/simulacao')
-      .then((res) => res.json())
-      .then((res) => setGamesSimulacao(res))
+  //   fetch('https://api-ebac.vercel.app/api/eplay/esportes')
+  //     .then((res) => res.json())
+  //     .then((res) => setGamesEsporte(res))
 
-    fetch('https://api-ebac.vercel.app/api/eplay/luta')
-      .then((res) => res.json())
-      .then((res) => setGamesLuta(res))
+  //   fetch('https://api-ebac.vercel.app/api/eplay/simulacao')
+  //     .then((res) => res.json())
+  //     .then((res) => setGamesSimulacao(res))
 
-    fetch('https://api-ebac.vercel.app/api/eplay/rpg')
-      .then((res) => res.json())
-      .then((res) => setGamesRPG(res))
-  }, [])
+  //   fetch('https://api-ebac.vercel.app/api/eplay/luta')
+  //     .then((res) => res.json())
+  //     .then((res) => setGamesLuta(res))
 
-  return (
-    <>
-      <ProductsList games={gamesAcao} title="Ação" background="gray" />
-      <ProductsList games={gamesEsporte} title="Esporte" background="black" />
-      <ProductsList
-        games={gamesSimulacao}
-        title="Simulação"
-        background="gray"
-      />
-      <ProductsList games={gamesLuta} title="Luta" background="black" />
-      <ProductsList games={gamesRPG} title="RPG" background="gray" />
-    </>
-  )
+  //   fetch('https://api-ebac.vercel.app/api/eplay/rpg')
+  //     .then((res) => res.json())
+  //     .then((res) => setGamesRPG(res))
+  // }, [])
+
+  if (actionsGames && fightGames && rpgGames && simulationGames && sportGames) {
+    return (
+      <>
+        <ProductsList
+          games={actionsGames}
+          title="Ação"
+          background="gray"
+          id="action"
+        />
+        <ProductsList
+          games={sportGames}
+          title="Esporte"
+          background="black"
+          id="sports"
+        />
+        <ProductsList
+          games={simulationGames}
+          title="Simulação"
+          background="gray"
+          id="simulation"
+        />
+        <ProductsList
+          games={fightGames}
+          title="Luta"
+          background="black"
+          id="fight"
+        />
+        <ProductsList games={rpgGames} title="RPG" background="gray" id="rpg" />
+      </>
+    )
+  }
+
+  return <h4>Carregando...</h4>
 }
 
 export default Categories

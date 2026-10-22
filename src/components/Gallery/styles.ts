@@ -3,6 +3,8 @@ import { cores } from '../../styles'
 
 export const Items = styled.ul`
   display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
 `
 export const Action = styled.div`
   position: absolute;
@@ -18,17 +20,17 @@ export const Action = styled.div`
   transition: opacity 0.5s ease;
 `
 
+// maior que(>) para indicar que só será usado no seu filho direto do li.
+// object-fit para ajustar de forma mais pratica a imagem.
 export const Item = styled.li`
-  margin-right: 16px;
   position: relative;
 
-  // maior que(>) para indicar que só será usado no seu filho direto do li.
   > img {
     border: 2px solid ${cores.branca};
     border-radius: 8px;
     width: 150px;
     height: 150px;
-    object-fit: cover; // object-fit para ajustar de forma mais pratica a imagem.
+    object-fit: cover;
   }
 
   &:hover {
